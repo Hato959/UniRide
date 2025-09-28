@@ -1,0 +1,13 @@
+package com.uniride.model.enums;
+
+public enum TipoNotificacion {
+    CONFIRMACION_RESERVA,
+    RECHAZO_RESERVA,
+    CANCELACION_VIAJE,
+    RECORDATORIO_VIAJE,
+    PAGO_PENDIENTE,
+    PAGO_CONFIRMADO,
+    CAMBIO_ESTADO_VIAJE,
+    REPORTE_INCIDENTE,
+    MENSAJE_SISTEMA
+}
