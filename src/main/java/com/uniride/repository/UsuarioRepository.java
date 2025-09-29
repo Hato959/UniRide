@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     // Buscar usuario por correo institucional
-    @Query("SELECT u FROM Usuario u WHERE u.correoInsitucional = :correo")
-    Optional<Usuario> findByCorreoInstitucional(@Param("correo") String correo);
+    //@Query("SELECT u FROM Usuario u WHERE u.correoInsitucional = :correo")
+    //Optional<Usuario> findByCorreoInstitucional(@Param("correo") String correo);
 
     // Verificar si ya existe un correo registrado
     boolean existsByCorreoInsitucional(String correoInsitucional);

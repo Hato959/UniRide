@@ -3,7 +3,6 @@ package com.uniride.service;
 import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
 import com.uniride.model.CodigoVerificacion;
-import com.uniride.model.Usuario;
 import com.uniride.repository.CodigoVerificacionRepository;
 import com.uniride.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
