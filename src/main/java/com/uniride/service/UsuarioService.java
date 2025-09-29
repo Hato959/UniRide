@@ -5,6 +5,7 @@ import com.uniride.dto.response.UsuarioResponseDTO;
 import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
 import com.uniride.model.Usuario;
+import com.uniride.model.enums.RolActivo;
 import com.uniride.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -110,5 +111,29 @@ public class UsuarioService {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
         usuarioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void cambiarRol(Long usuarioId, RolActivo nuevoRol) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        // Validaciones
+        if (nuevoRol == RolActivo.CONDUCTOR && usuario.getConductor() == null) {
+            throw new BusinessRuleException("El usuario no tiene perfil de conductor.");
+        }
+        if (nuevoRol == RolActivo.PASAJERO && usuario.getPasajero() == null) {
+            throw new BusinessRuleException("El usuario no tiene perfil de pasajero.");
+        }
+
+        usuario.setRolActivo(nuevoRol);
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public String obtenerRolActivo(Long usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        return usuario.getRolActivo().name(); // devuelve "PASAJERO" o "CONDUCTOR"
     }
 }
