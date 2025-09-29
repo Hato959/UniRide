@@ -3,6 +3,7 @@ package com.uniride.controller;
 import com.uniride.dto.request.CambiarPasswordRequestDTO;
 import com.uniride.dto.request.UsuarioRegisterRequestDTO;
 import com.uniride.dto.response.UsuarioResponseDTO;
+import com.uniride.model.enums.RolActivo;
 import com.uniride.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -48,5 +49,20 @@ public class UsuarioController {
             @RequestBody CambiarPasswordRequestDTO dto) {
         usuarioService.cambiarPassword(id, dto.contrasenaActual(), dto.nuevaContrasena());
         return ResponseEntity.ok("Contraseña actualizada correctamente.");
+    }
+
+    @PutMapping("/{id}/cambiar-rol")
+    public ResponseEntity<String> cambiarRol(
+            @PathVariable Long id,
+            @RequestParam RolActivo nuevoRol) {
+        usuarioService.cambiarRol(id, nuevoRol);
+        return ResponseEntity.ok("Rol activo cambiado a " + nuevoRol);
+    }
+
+    // Obtener el rol activo del usuario
+    @GetMapping("/{id}/rol-activo")
+    public ResponseEntity<String> obtenerRolActivo(@PathVariable Long id) {
+        String rol = usuarioService.obtenerRolActivo(id);
+        return ResponseEntity.ok("El rol activo del usuario es: " + rol);
     }
 }
