@@ -5,7 +5,6 @@ import com.uniride.dto.response.UsuarioResponseDTO;
 import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
 import com.uniride.model.Usuario;
-import com.uniride.model.enums.RolActivo;
 import com.uniride.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,7 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponseDTO registrar(UsuarioRegisterRequestDTO dto) {
-        if (usuarioRepository.existsByCorreoInsitucional(dto.correoInsitucional())) {
+        if (usuarioRepository.existsByCorreoInstitucional(dto.correoInstitucional())) {
             throw new BusinessRuleException("El correo institucional ya está registrado.");
         }
         if (usuarioRepository.existsByDni(dto.dni())) {
@@ -29,12 +28,13 @@ public class UsuarioService {
 
         Usuario usuario = Usuario.builder()
                 .nombre(dto.nombre())
-                .correoInsitucional(dto.correoInsitucional())
+                .correoInstitucional(dto.correoInstitucional())
                 .contrasena(passwordEncoder.encode(dto.contrasena())) // encriptamos la contraseña
                 .carrera(dto.carrera())
                 .distrito(dto.distrito())
                 .dni(dto.dni())
                 .verificado(false)
+                .rolActivo("PASAJERO") // por defecto, pasajero
                 .build();
 
         usuarioRepository.save(usuario);
@@ -42,10 +42,11 @@ public class UsuarioService {
         return new UsuarioResponseDTO(
                 usuario.getId(),
                 usuario.getNombre(),
-                usuario.getCorreoInsitucional(),
+                usuario.getCorreoInstitucional(),
                 usuario.getCarrera(),
                 usuario.getDistrito(),
                 usuario.getDni(),
+                usuario.getRolActivo(),
                 usuario.getVerificado()
         );
     }
@@ -58,10 +59,11 @@ public class UsuarioService {
         return new UsuarioResponseDTO(
                 usuario.getId(),
                 usuario.getNombre(),
-                usuario.getCorreoInsitucional(),
+                usuario.getCorreoInstitucional(),
                 usuario.getCarrera(),
                 usuario.getDistrito(),
                 usuario.getDni(),
+                usuario.getRolActivo(),
                 usuario.getVerificado()
         );
     }
@@ -72,7 +74,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         usuario.setNombre(dto.nombre());
-        usuario.setCorreoInsitucional(dto.correoInsitucional());
+        usuario.setCorreoInstitucional(dto.correoInstitucional());
         usuario.setCarrera(dto.carrera());
         usuario.setDistrito(dto.distrito());
         // OJOOOOO: NO ACTUALIZAR CONTRASEÑA AQUI, solo en el endpoint de cambio de password
@@ -82,10 +84,11 @@ public class UsuarioService {
         return new UsuarioResponseDTO(
                 usuario.getId(),
                 usuario.getNombre(),
-                usuario.getCorreoInsitucional(),
+                usuario.getCorreoInstitucional(),
                 usuario.getCarrera(),
                 usuario.getDistrito(),
                 usuario.getDni(),
+                usuario.getRolActivo(),
                 usuario.getVerificado()
         );
     }
@@ -113,16 +116,18 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    // Ahora el objeto de los roles es String, no enum RolActivo
+    // asi que para cambiarlo es simplemente con "PASAJERO" o "CONDUCTOR"
     @Transactional
-    public void cambiarRol(Long usuarioId, RolActivo nuevoRol) {
+    public void cambiarRol(Long usuarioId, String nuevoRol) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         // Validaciones
-        if (nuevoRol == RolActivo.CONDUCTOR && usuario.getConductor() == null) {
+        if (nuevoRol.equals("CONDUCTOR") && usuario.getConductor() == null) {
             throw new BusinessRuleException("El usuario no tiene perfil de conductor.");
         }
-        if (nuevoRol == RolActivo.PASAJERO && usuario.getPasajero() == null) {
+        if (nuevoRol.equals("PASAJERO") && usuario.getPasajero() == null) {
             throw new BusinessRuleException("El usuario no tiene perfil de pasajero.");
         }
 
@@ -134,6 +139,6 @@ public class UsuarioService {
     public String obtenerRolActivo(Long usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-        return usuario.getRolActivo().name(); // devuelve "PASAJERO" o "CONDUCTOR"
+        return usuario.getRolActivo(); // devuelve "PASAJERO" o "CONDUCTOR"
     }
 }

@@ -1,5 +1,6 @@
 package com.uniride.service;
 import com.uniride.dto.request.ConductorRegisterRequestDTO;
+import com.uniride.dto.response.ConductorInfoResponseDTO;
 import com.uniride.dto.response.ConductorResponseDTO;
 import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
@@ -24,6 +25,9 @@ public class ConductorService {
 
         if (conductorRepo.findByUsuarioId(usuario.getId()).isPresent()) {
             throw new BusinessRuleException("Este usuario ya tiene un perfil de conductor");
+        }
+        if(conductorRepo.existsByUsuarioId(usuario.getId())) {
+            throw new BusinessRuleException("El usuario ya esta registrado como conductor");
         }
 
         Conductor conductor = Conductor.builder()
@@ -79,5 +83,38 @@ public class ConductorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Conductor no encontrado"));
 
         conductorRepo.delete(conductor);
+    }
+
+    @Transactional
+    public ConductorInfoResponseDTO infoDetallada(Long conductorId) {
+        Conductor conductor = conductorRepo.findByUsuarioId(conductorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Conductor no encontrado"));
+
+        return new ConductorInfoResponseDTO(
+                conductor.getId(),
+                conductor.getUsuario().getId(),
+                conductor.getUsuario().getNombre(),
+                conductor.getUsuario().getCorreoInstitucional(),
+                conductor.getUsuario().getCarrera(),
+                conductor.getUsuario().getDistrito(),
+                conductor.getUsuario().getDni(),
+                conductor.getLicenciaConducir(),
+                conductor.getExperienciaAnios()
+        );
+    }
+
+    // --- mappers ---
+    private ConductorResponseDTO toConductorResponse(Conductor c) {
+        //List<VehiculoResponseDTO> vehiculos = c.getVehiculos() == null ? List.of()
+        //        : c.getVehiculos().stream().toList();
+
+        return ConductorResponseDTO.builder()
+                .id(c.getId())
+                //.nombreUsuario(c.getUsuario().getNombre())
+                //.correoInstitucional(c.getUsuario().getCorreoInstitucional()) // corrige si tu campo tiene un typo
+                .licenciaConducir(c.getLicenciaConducir())
+                .experienciaAnios(c.getExperienciaAnios())
+                //.vehiculos(vehiculos)
+                .build();
     }
 }

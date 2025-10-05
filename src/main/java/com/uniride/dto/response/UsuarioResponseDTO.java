@@ -9,5 +9,6 @@ public record UsuarioResponseDTO(
         String carrera,
         String distrito,
         String dni,
+        String rol,
         Boolean verificado) {
 }
