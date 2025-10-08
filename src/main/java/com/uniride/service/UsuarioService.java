@@ -33,7 +33,7 @@ public class UsuarioService {
                 .carrera(dto.carrera())
                 .distrito(dto.distrito())
                 .dni(dto.dni())
-                .verificado(false)
+                .verificado(false) // por defecto, no verificado
                 .rolActivo("PASAJERO") // por defecto, pasajero
                 .build();
 

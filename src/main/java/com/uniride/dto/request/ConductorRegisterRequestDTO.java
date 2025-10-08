@@ -3,8 +3,13 @@ package com.uniride.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 public record ConductorRegisterRequestDTO(
-        @NotNull Long usuarioId,
-        @NotBlank String licenciaConducir,
-        @NotNull Integer experienciaAnios
+        @NotNull(message = "El id del usuario es obligatorio")
+        Long usuarioId,
+
+        @NotBlank(message = "La licencia de conducir es obligatoria")
+        String licenciaConducir,
+
+        @NotNull(message = "Los años de experiencia son obligatorios")
+        Integer experienciaAnios
 ) {
 }

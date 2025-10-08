@@ -43,6 +43,6 @@ public class Viaje {
     private Boolean recurrente = false;
 
     // Relación con pasajeros (muchos a muchos usando ViajePasajero)
-    @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL)
-    private List<ViajePasajero> pasajeros;
+    //@OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL)
+    //private List<ViajePasajero> pasajeros;
 }
