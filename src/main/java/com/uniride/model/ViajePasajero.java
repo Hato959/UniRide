@@ -13,20 +13,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ViajePasajero {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_viaje_pasajero")
-    private Long id_viajePasajero;
+    @EmbeddedId
+    private ViajePasajeroId id;
 
-    @Column(name = "id_pasajero", nullable = false)
-    private Long idPasajero;
+    @ManyToOne
+    @MapsId("viajeId")
+    @JoinColumn(name = "id_viaje", nullable = false)
+    private Viaje viaje;
 
-    @Column(name = "id_viaje", nullable = false)
-    private Long idViaje;
+    @ManyToOne
+    @MapsId("pasajeroId")
+    @JoinColumn(name = "id_pasajero", nullable = false)
+    private Pasajero pasajero;
 
     @Column(name = "fecha_reserva", nullable = false)
     private LocalDateTime fechaReserva;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado_reserva", nullable = false, length = 20)
-    private String estadoReserva;
+    private EstadoReserva estadoReserva;
+
+    @OneToOne(mappedBy = "viajePasajero", cascade = CascadeType.ALL)
+    private Pago pago;
 }
