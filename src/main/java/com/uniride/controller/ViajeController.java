@@ -1,6 +1,8 @@
 package com.uniride.controller;
 
+import com.uniride.dto.request.ViajeRecurrenteRequestDTO;
 import com.uniride.dto.request.ViajeRequestDTO;
+import com.uniride.dto.response.ViajeRecurrenteResponseDTO;
 import com.uniride.dto.response.ViajeResponseDTO;
 import com.uniride.service.ViajeService;
 import jakarta.validation.Valid;
@@ -43,10 +45,15 @@ public class ViajeController {
         return ResponseEntity.ok(viajeService.editarViaje(id, dto));
     }
 
-    // Eliminar viaje  (análogo a DELETE /usuarios/{id})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         viajeService.eliminarViaje(id);
         return ResponseEntity.ok("Viaje eliminado correctamente.");
+    }
+
+       @PostMapping("/recurrente")
+    public ResponseEntity<ViajeRecurrenteResponseDTO> programarRecurrente(
+            @Valid @RequestBody ViajeRecurrenteRequestDTO dto) {
+        return ResponseEntity.ok(viajeService.programarViajesRecurrentes(dto));
     }
 }
