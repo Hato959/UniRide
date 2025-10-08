@@ -24,9 +24,9 @@ public class Pago {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal monto;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private MetodoPago metodo;
+    private String metodo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
