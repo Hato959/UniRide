@@ -12,7 +12,7 @@ public record UsuarioRegisterRequestDTO(
 
         @NotBlank(message = "El correo es obligatorio")
         @Email(message = "El correo debe ser válido")
-        String correoInsitucional,
+        String correoInstitucional,
 
         @NotBlank(message = "La contraseña es obligatoria")
         @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")

@@ -3,7 +3,6 @@ package com.uniride.controller;
 import com.uniride.dto.request.CambiarPasswordRequestDTO;
 import com.uniride.dto.request.UsuarioRegisterRequestDTO;
 import com.uniride.dto.response.UsuarioResponseDTO;
-import com.uniride.model.enums.RolActivo;
 import com.uniride.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +53,7 @@ public class UsuarioController {
     @PutMapping("/{id}/cambiar-rol")
     public ResponseEntity<String> cambiarRol(
             @PathVariable Long id,
-            @RequestParam RolActivo nuevoRol) {
+            @RequestParam String nuevoRol) {
         usuarioService.cambiarRol(id, nuevoRol);
         return ResponseEntity.ok("Rol activo cambiado a " + nuevoRol);
     }

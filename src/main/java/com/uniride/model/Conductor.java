@@ -2,6 +2,7 @@ package com.uniride.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.*;
 
 @Entity
 @Table(name = "conductores")
@@ -27,4 +28,7 @@ public class Conductor {
 
     @Column(name = "experiencia_anios")
     private Integer experienciaAnios;
+
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL)
+    private List<Vehiculo> vehiculos = new ArrayList<>();
 }
