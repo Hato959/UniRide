@@ -1,5 +1,6 @@
 package com.uniride.controller;
 import com.uniride.dto.request.ConductorRegisterRequestDTO;
+import com.uniride.dto.response.ConductorInfoResponseDTO;
 import com.uniride.dto.response.ConductorResponseDTO;
 import com.uniride.service.ConductorService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/conductores")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ConductorController {
     private final ConductorService conductorService;
@@ -22,6 +24,10 @@ public class ConductorController {
         return ResponseEntity.ok(conductorService.obtenerPerfil(usuarioId));
     }
 
+    @GetMapping("/detalles/{conductorId}")
+    public ResponseEntity<ConductorInfoResponseDTO> infoDetallada(@PathVariable Long conductorId) {
+        return ResponseEntity.ok(conductorService.infoDetallada(conductorId));
+    }
     @PutMapping("/{usuarioId}")
     public ResponseEntity<ConductorResponseDTO> actualizar(
             @PathVariable Long usuarioId,

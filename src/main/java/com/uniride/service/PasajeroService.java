@@ -38,7 +38,7 @@ public class PasajeroService {
                 pasajero.getId(),
                 usuario.getId(),
                 usuario.getNombre(),
-                usuario.getCorreoInsitucional(),
+                usuario.getCorreoInstitucional(),
                 pasajero.getPreferencias()
         );
     }
@@ -52,7 +52,7 @@ public class PasajeroService {
                 pasajero.getId(),
                 pasajero.getUsuario().getId(),
                 pasajero.getUsuario().getNombre(),
-                pasajero.getUsuario().getCorreoInsitucional(),
+                pasajero.getUsuario().getCorreoInstitucional(),
                 pasajero.getPreferencias()
         );
     }
@@ -69,7 +69,7 @@ public class PasajeroService {
                 pasajero.getId(),
                 pasajero.getUsuario().getId(),
                 pasajero.getUsuario().getNombre(),
-                pasajero.getUsuario().getCorreoInsitucional(),
+                pasajero.getUsuario().getCorreoInstitucional(),
                 pasajero.getPreferencias()
         );
     }

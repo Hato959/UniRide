@@ -56,4 +56,14 @@ public class VehiculoService {
                 ))
                 .toList();
     }
+
+    private VehiculoResponseDTO toVehiculoResponse(Vehiculo v) {
+        return VehiculoResponseDTO.builder()
+                .id(v.getId())
+                .marca(v.getMarca())
+                .modelo(v.getModelo())
+                .placa(v.getPlaca())
+                .color(v.getColor())
+                .build();
+    }
 }

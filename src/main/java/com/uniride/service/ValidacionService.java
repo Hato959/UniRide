@@ -55,7 +55,7 @@ public class ValidacionService {
         }
 
         // Validar código
-        CodigoVerificacion cv = codigoRepo.findByCorreoAndCodigoAndUsadoFalse(usuario.getCorreoInsitucional(), codigo)
+        CodigoVerificacion cv = codigoRepo.findByCorreoAndCodigoAndUsadoFalse(usuario.getCorreoInstitucional(), codigo)
                 .orElseThrow(() -> new ResourceNotFoundException("Código inválido o ya usado."));
 
         if (cv.getExpiracion().isBefore(LocalDateTime.now())) {
