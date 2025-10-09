@@ -29,13 +29,13 @@ public record ViajeRecurrenteRequestDTO(
         @Min(value = 1, message = "Debe haber al menos 1 asiento disponible")
         Integer asientosDisponibles,
 
-        /**
+        /*
          * Frecuencia del viaje: "DIARIA" o "SEMANAL"
          */
         @NotBlank(message = "La frecuencia es obligatoria (DIARIA o SEMANAL)")
         String frecuencia,
 
-        /**
+        /*
          * Cantidad de repeticiones solicitadas (incluye la primera).
          * Si es null, usaremos un valor por defecto (p.ej. 10) pero siempre limitado a 30 días.
          */
