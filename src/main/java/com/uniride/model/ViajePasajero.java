@@ -35,4 +35,7 @@ public class ViajePasajero {
 
     @OneToOne(mappedBy = "viajePasajero", cascade = CascadeType.ALL)
     private Pago pago;
+
+
+
 }

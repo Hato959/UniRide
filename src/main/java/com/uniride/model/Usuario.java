@@ -21,7 +21,7 @@ public class Usuario {
     private String nombre;
 
     @Column(name = "correo_institucional",nullable = false,length = 100,unique = true)
-    private String correoInsitucional;
+    private String correoInstitucional;
 
     @Column(nullable = false, length = 100)
     private String contrasena;
@@ -38,4 +38,12 @@ public class Usuario {
     @Column(name = "verificado")
     private Boolean verificado = false;
 
+    @Column(name = "rol_activo", nullable = false)
+    private String rolActivo; // por defecto, pasajero
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Conductor conductor;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Pasajero pasajero;
 }
