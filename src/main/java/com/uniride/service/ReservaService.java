@@ -60,7 +60,7 @@ public class ReservaService {
             throw new BusinessRuleException("El pasajero ya tiene una reserva en este viaje.");
         }
 
-        // 4) RN14: validar método de pago (opcional, si lo envías)
+        // 4) RN14: validar metodo de pago (opcional, si lo envías)
         if (dto.metodoPago() != null && !dto.metodoPago().isBlank()) {
             validarMetodoPago(dto.metodoPago());
         }
@@ -76,10 +76,6 @@ public class ReservaService {
         vp.setEstadoReserva(EstadoReserva.RESERVADO);     // Ajusta si tu enum usa otro nombre
         vp.setFechaReserva(LocalDateTime.now());          // Timestamp de creación
 
-        // 7) (Opcional) Si tu entidad tiene el campo metodoPago, descomenta:
-        // if (dto.metodoPago() != null && !dto.metodoPago().isBlank()) {
-        //     vp.setMetodoPago(MetodoPago.valueOf(dto.metodoPago().toUpperCase()));
-        // }
 
         // 8) Guardar
         viajePasajeroRepository.save(vp);
@@ -88,7 +84,7 @@ public class ReservaService {
         return ReservaResponseDTO.builder()
                 .idViaje(viaje.getId())
                 .idPasajero(pasajero.getId())
-                .estado(vp.getEstadoReserva() != null ? vp.getEstadoReserva().name() : "RESERVADO")
+                .estado(vp.getEstadoReserva().name())
                 .build();
     }
 
@@ -103,7 +99,7 @@ public class ReservaService {
                 .map(vp -> ReservaResponseDTO.builder()
                         .idViaje(vp.getViaje().getId())
                         .idPasajero(vp.getPasajero().getId())
-                        .estado(vp.getEstadoReserva() != null ? vp.getEstadoReserva().name() : "RESERVADO")
+                        .estado(vp.getEstadoReserva().name())
                         .build()
                 )
                 .toList();

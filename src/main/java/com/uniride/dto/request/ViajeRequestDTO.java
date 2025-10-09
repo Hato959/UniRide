@@ -1,5 +1,6 @@
 package com.uniride.dto.request;
 
+import com.uniride.model.enums.DiaSemana;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Builder
 public record ViajeRequestDTO(
@@ -30,5 +32,7 @@ public record ViajeRequestDTO(
         @Min(value = 1, message = "Debe haber al menos 1 asiento disponible")
         Integer asientosDisponibles,
 
-        Boolean recurrente
+        Boolean recurrente,
+        LocalDate fechaFinRecurrencia,
+        Set<DiaSemana> diasRecurrencia
 ) {}

@@ -29,24 +29,25 @@ public class Pago {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal monto;
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String metodo;
+    private MetodoPago metodo;
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String estado;
+    private EstadoPago estado;
 
     @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
 
 
     // Relación con ViajePasajero
-    /*@OneToOne
+    @OneToOne
     @JoinColumns({
             @JoinColumn(name = "id_viaje", referencedColumnName = "id_viaje"),
             @JoinColumn(name = "id_pasajero", referencedColumnName = "id_pasajero")
-    })*/
-    @Column(name = "id_viaje_pasajero", nullable = false)
-    private Long viajePasajeroId;
+    })
+    private ViajePasajero viajePasajero;
+    //@Column(name = "id_viaje_pasajero", nullable = false)
+    //private Long viajePasajeroId;
 }

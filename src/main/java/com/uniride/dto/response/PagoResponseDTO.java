@@ -12,7 +12,8 @@ public record PagoResponseDTO(
         String monto,
         String metodo,
         String estado,
-        Long viajePasajeroId,
+        Long idViaje,
+        Long idPasajero,
         LocalDateTime fecha
 ) {
 }

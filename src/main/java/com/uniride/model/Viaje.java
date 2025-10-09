@@ -1,11 +1,13 @@
 package com.uniride.model;
 
+import com.uniride.model.enums.DiaSemana;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "viajes")
@@ -42,7 +44,21 @@ public class Viaje {
     @Column(nullable = false)
     private Boolean recurrente = false;
 
+    @Column(name = "fecha_fin_recurrencia")
+
+    private LocalDate fechaFinRecurrencia;
+
     // Relación con pasajeros (muchos a muchos usando ViajePasajero)
-    //@OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL)
-    //private List<ViajePasajero> pasajeros;
+    @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL)
+    private List<ViajePasajero> pasajeros;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "viaje_dias_recurrencia",
+            joinColumns = @JoinColumn(name = "viaje_id")
+    )
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "dia")
+    private Set<DiaSemana> diasRecurrencia;
 }

@@ -3,6 +3,7 @@ package com.uniride.service;
 
 import com.uniride.dto.request.TarifaSimbolicaRequestDTO;
 import com.uniride.dto.response.TarifaSimbolicaResponseDTO;
+import com.uniride.exception.BusinessRuleException;
 import com.uniride.model.TarifaSimbolica;
 import com.uniride.repository.TarifaSimbolicaRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,14 @@ public class TarifaSimbolicaService {
 
     @Transactional
     public TarifaSimbolicaResponseDTO establecer(TarifaSimbolicaRequestDTO dto) {
-        String metodoPago = (dto.metodoPago() == null || dto.metodoPago().isEmpty()) ? MetodoPago.EFECTIVO : dto.metodoPago().toUpperCase();
+        MetodoPago metodoPago;
+        try {
+            metodoPago = (dto.metodoPago() == null || dto.metodoPago().isBlank())
+                    ? MetodoPago.EFECTIVO
+                    : MetodoPago.valueOf(dto.metodoPago().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BusinessRuleException("Método de pago inválido. Use: EFECTIVO, YAPE o PLIN.");
+        }
 
         TarifaSimbolica tarifaSimbolica = TarifaSimbolica.builder()
                 .montoTotal(dto.montoTotal())
@@ -40,7 +48,7 @@ public class TarifaSimbolicaService {
                 tarifaSimbolica.getConductorId(),
                 tarifaSimbolica.getVehiculoId(),
                 tarifaSimbolica.getPrecioPorPersona(),
-                tarifaSimbolica.getMetodoPago(),
+                tarifaSimbolica.getMetodoPago().name(),
                 tarifaSimbolica.getFechaCreacion(),
                 tarifaSimbolica.getViajeId()
         );
@@ -58,7 +66,7 @@ public class TarifaSimbolicaService {
                 tarifaSimbolica.getConductorId(),
                 tarifaSimbolica.getVehiculoId(),
                 tarifaSimbolica.getPrecioPorPersona(),
-                tarifaSimbolica.getMetodoPago(),
+                tarifaSimbolica.getMetodoPago().name(),
                 tarifaSimbolica.getFechaCreacion(),
                 tarifaSimbolica.getViajeId()
         );

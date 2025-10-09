@@ -1,5 +1,6 @@
 package com.uniride.model;
 
+import com.uniride.model.enums.MetodoPago;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -34,8 +35,9 @@ public class TarifaSimbolica {
     @Column(name="precio_por_persona", nullable = false)
     private Double precioPorPersona;
 
-    @Column(name="metodo_pago", nullable = false, length = 50)
-    private String metodoPago; // por defecto, efectivo
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodo_pago", nullable = false, length = 50)
+    private MetodoPago metodoPago;
 
     @Column(name="fecha_creacion", nullable = false, updatable = false)
     @CreationTimestamp
