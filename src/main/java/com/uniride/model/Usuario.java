@@ -1,5 +1,6 @@
 package com.uniride.model;
 
+import com.uniride.model.enums.RolActivo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,8 +39,9 @@ public class Usuario {
     @Column(name = "verificado")
     private Boolean verificado = false;
 
-    @Column(name = "rol_activo", nullable = false)
-    private String rolActivo; // por defecto, pasajero
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rol_activo", nullable = false, length = 20)
+    private RolActivo rolActivo;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Conductor conductor;

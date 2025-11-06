@@ -4,6 +4,7 @@ import com.uniride.dto.response.VehiculoResponseDTO;
 import com.uniride.service.VehiculoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vehiculos")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('CONDUCTOR', 'ADMIN')")
 public class VehiculoController {
     private final VehiculoService vehiculoService;
 

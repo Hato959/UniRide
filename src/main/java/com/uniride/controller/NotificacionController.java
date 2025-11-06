@@ -7,6 +7,7 @@ import com.uniride.model.Notificacion;
 import com.uniride.service.NotificacionOrchestrator;
 import com.uniride.repository.NotificacionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
@@ -16,6 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/notificaciones")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
+
 public class NotificacionController {
 
     private final NotificacionRepository repo;
@@ -29,6 +32,7 @@ public class NotificacionController {
 
     // TEST: create a dummy notification now (for any canal)
     @PostMapping("/test")
+    @PreAuthorize("hasRole('ADMIN')")
     public Map<String, Object> test(@RequestBody Map<String, Object> body) {
         Long usuarioId = ((Number) body.get("userId")).longValue();
         String tipo = (String) body.getOrDefault("tipo", TipoNotificacion.T_RESERVA_CONFIRMADA);
