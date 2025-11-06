@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 "/usuarios/registro"
                         ).permitAll()
 
-                        // Todo lo demás requiere autenticación
+                        // lo demás requiere autenticación
                         .anyRequest().authenticated()
                 )
 
