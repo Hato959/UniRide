@@ -3,6 +3,7 @@ import com.uniride.dto.request.ConductorRegisterRequestDTO;
 import com.uniride.dto.response.ConductorInfoResponseDTO;
 import com.uniride.dto.response.ConductorResponseDTO;
 import com.uniride.service.ConductorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class ConductorController {
     private final ConductorService conductorService;
 
     @PostMapping("/registro")
-    public ResponseEntity<ConductorResponseDTO> registrar(@RequestBody ConductorRegisterRequestDTO dto) {
+    public ResponseEntity<ConductorResponseDTO> registrar(@Valid @RequestBody ConductorRegisterRequestDTO dto) {
         return ResponseEntity.ok(conductorService.registrar(dto));
     }
 

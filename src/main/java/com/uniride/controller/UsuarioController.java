@@ -4,6 +4,7 @@ import com.uniride.dto.request.CambiarPasswordRequestDTO;
 import com.uniride.dto.request.UsuarioRegisterRequestDTO;
 import com.uniride.dto.response.UsuarioResponseDTO;
 import com.uniride.service.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class UsuarioController {
 
     // Crear usuario
     @PostMapping("/registro")
-    public ResponseEntity<UsuarioResponseDTO> registrar(@RequestBody UsuarioRegisterRequestDTO dto) {
+    public ResponseEntity<UsuarioResponseDTO> registrar(@Valid @RequestBody UsuarioRegisterRequestDTO dto) {
         return ResponseEntity.ok(usuarioService.registrar(dto));
     }
 

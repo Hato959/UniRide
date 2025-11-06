@@ -3,6 +3,7 @@ package com.uniride.controller;
 import com.uniride.dto.request.PagoRequestDTO;
 import com.uniride.dto.response.PagoResponseDTO;
 import com.uniride.service.PagoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class PagoController {
 
     // Crear pago
     @PostMapping("/crear")
-    public ResponseEntity<PagoResponseDTO> crearPago(@RequestBody PagoRequestDTO dto) {
+    public ResponseEntity<PagoResponseDTO> crearPago(@Valid @RequestBody PagoRequestDTO dto) {
         return ResponseEntity.ok(pagoService.crearPago(dto));
     }
 
