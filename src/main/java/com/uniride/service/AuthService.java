@@ -39,7 +39,7 @@ public class AuthService {
                 .distrito(request.distrito())
                 .dni(request.dni())
                 .verificado(false)
-                .rolActivo(RolActivo.PASAJERO)
+                .rolActivo(request.rolActivo())
                 .build();
 
         Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
