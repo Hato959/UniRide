@@ -5,6 +5,7 @@ import com.uniride.dto.response.UsuarioResponseDTO;
 import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
 import com.uniride.model.Usuario;
+import com.uniride.model.enums.RolActivo;
 import com.uniride.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +35,7 @@ public class UsuarioService {
                 .distrito(dto.distrito())
                 .dni(dto.dni())
                 .verificado(false) // por defecto, no verificado
-                .rolActivo("PASAJERO") // por defecto, pasajero
+                .rolActivo(RolActivo.PASAJERO) // por defecto, pasajero
                 .build();
 
         usuarioRepository.save(usuario);
@@ -46,7 +47,7 @@ public class UsuarioService {
                 usuario.getCarrera(),
                 usuario.getDistrito(),
                 usuario.getDni(),
-                usuario.getRolActivo(),
+                usuario.getRolActivo().name(),
                 usuario.getVerificado()
         );
     }
@@ -63,7 +64,7 @@ public class UsuarioService {
                 usuario.getCarrera(),
                 usuario.getDistrito(),
                 usuario.getDni(),
-                usuario.getRolActivo(),
+                usuario.getRolActivo().name(),
                 usuario.getVerificado()
         );
     }
@@ -88,7 +89,7 @@ public class UsuarioService {
                 usuario.getCarrera(),
                 usuario.getDistrito(),
                 usuario.getDni(),
-                usuario.getRolActivo(),
+                usuario.getRolActivo().name(),
                 usuario.getVerificado()
         );
     }
@@ -119,16 +120,16 @@ public class UsuarioService {
     // Ahora el objeto de los roles es String, no enum RolActivo
     // asi que para cambiarlo es simplemente con "PASAJERO" o "CONDUCTOR"
     @Transactional
-    public void cambiarRol(Long usuarioId, String nuevoRol) {
+    public void cambiarRol(Long usuarioId, RolActivo nuevoRol) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
-        // Validaciones
-        if (nuevoRol.equals("CONDUCTOR") && usuario.getConductor() == null) {
-            throw new BusinessRuleException("El usuario no tiene perfil de conductor.");
+        // Validaciones de coherencia según el rol
+        if (nuevoRol == RolActivo.CONDUCTOR && usuario.getConductor() == null) {
+            throw new BusinessRuleException("El usuario no tiene perfil de conductor registrado.");
         }
-        if (nuevoRol.equals("PASAJERO") && usuario.getPasajero() == null) {
-            throw new BusinessRuleException("El usuario no tiene perfil de pasajero.");
+        if (nuevoRol == RolActivo.PASAJERO && usuario.getPasajero() == null) {
+            throw new BusinessRuleException("El usuario no tiene perfil de pasajero registrado.");
         }
 
         usuario.setRolActivo(nuevoRol);
@@ -139,6 +140,6 @@ public class UsuarioService {
     public String obtenerRolActivo(Long usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
-        return usuario.getRolActivo(); // devuelve "PASAJERO" o "CONDUCTOR"
+        return usuario.getRolActivo().name(); // devuelve "PASAJERO" o "CONDUCTOR"
     }
 }

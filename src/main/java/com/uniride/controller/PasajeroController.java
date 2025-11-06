@@ -5,11 +5,13 @@ import com.uniride.dto.response.PasajeroResponseDTO;
 import com.uniride.service.PasajeroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pasajeros")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('PASAJERO', 'ADMIN')")
 public class PasajeroController {
     private final PasajeroService pasajeroService;
 

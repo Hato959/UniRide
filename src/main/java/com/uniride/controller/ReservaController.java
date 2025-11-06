@@ -7,6 +7,7 @@ import com.uniride.service.ReservaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/reservas")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('PASAJERO', 'ADMIN')")
 public class ReservaController {
 
     private final ReservaService reservaService;
@@ -26,6 +28,7 @@ public class ReservaController {
 
     // Listar reservas por viaje
     @GetMapping("/viaje/{idViaje}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ReservaResponseDTO>> listarPorViaje(@PathVariable Long idViaje) {
         return ResponseEntity.ok(reservaService.listarPorViaje(idViaje));
     }

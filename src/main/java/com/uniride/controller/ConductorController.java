@@ -5,16 +5,18 @@ import com.uniride.dto.response.ConductorResponseDTO;
 import com.uniride.service.ConductorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/conductores")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('CONDUCTOR', 'ADMIN')")
 public class ConductorController {
     private final ConductorService conductorService;
 
     @PostMapping("/registro")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CONDUCTOR')")
     public ResponseEntity<ConductorResponseDTO> registrar(@RequestBody ConductorRegisterRequestDTO dto) {
         return ResponseEntity.ok(conductorService.registrar(dto));
     }

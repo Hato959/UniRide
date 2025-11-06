@@ -5,12 +5,14 @@ import com.uniride.dto.response.NotificacionPreferenciasResponseDTO;
 import com.uniride.model.NotificacionPreferencias;
 import com.uniride.service.NotificacionPreferenciasService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/notificaciones/preferencias")
-//@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
+
 public class NotificacionPreferenciasController {
 
     private final NotificacionPreferenciasService service;

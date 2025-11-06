@@ -6,13 +6,14 @@ import com.uniride.repository.UsuarioRepository;
 import com.uniride.repository.EventoRepository;
 import com.uniride.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/eventos")
-@CrossOrigin
+@PreAuthorize("hasAnyRole('CONDUCTOR', 'ADMIN')")
 public class EventoController {
 
     @Autowired

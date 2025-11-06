@@ -6,11 +6,13 @@ import com.uniride.model.TarifaSimbolica;
 import com.uniride.service.TarifaSimbolicaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tarifas-simbolicas")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class TarifaSimbolicaController {
     private final TarifaSimbolicaService tarifaSimbolicaService;
 
@@ -22,6 +24,7 @@ public class TarifaSimbolicaController {
 
     // Obtener datos de tarifa simbólica
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<TarifaSimbolicaResponseDTO> obtenerTarifaSimbolica(@PathVariable Long id){
         return ResponseEntity.ok(tarifaSimbolicaService.obtenerDatos(id));
     }
