@@ -6,10 +6,11 @@ public record ConductorRegisterRequestDTO(
         @NotNull(message = "El id del usuario es obligatorio")
         Long usuarioId,
 
-        @NotBlank(message = "La licencia de conducir es obligatoria")
+        @NotNull(message = "La licencia de conducir es un campo obligatorio")
+        @NotBlank(message = "El campo de licencia de conducir no puede estar vacío")
         String licenciaConducir,
 
-        @NotNull(message = "Los años de experiencia son obligatorios")
+        @NotNull(message = "El campo de años de experiencia es obligatorio")
         Integer experienciaAnios
 ) {
 }

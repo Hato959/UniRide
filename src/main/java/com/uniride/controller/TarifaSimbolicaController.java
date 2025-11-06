@@ -2,8 +2,9 @@ package com.uniride.controller;
 
 import com.uniride.dto.request.TarifaSimbolicaRequestDTO;
 import com.uniride.dto.response.TarifaSimbolicaResponseDTO;
-import com.uniride.model.TarifaSimbolica;
+//import com.uniride.model.TarifaSimbolica;
 import com.uniride.service.TarifaSimbolicaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class TarifaSimbolicaController {
 
     //Establecer tarifa simbólica
     @PostMapping("/establecer")
-    public ResponseEntity<TarifaSimbolicaResponseDTO> establecer(@RequestBody TarifaSimbolicaRequestDTO dto){
+    public ResponseEntity<TarifaSimbolicaResponseDTO> establecer(@Valid @RequestBody TarifaSimbolicaRequestDTO dto){
         return ResponseEntity.ok(tarifaSimbolicaService.establecer(dto));
     }
 
