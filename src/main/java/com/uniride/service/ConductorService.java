@@ -6,6 +6,7 @@ import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
 import com.uniride.model.Conductor;
 import com.uniride.model.Usuario;
+import com.uniride.model.enums.RolActivo;
 import com.uniride.repository.ConductorRepository;
 import com.uniride.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,8 @@ public class ConductorService {
                 .build();
 
         conductorRepo.save(conductor);
+        usuario.setRolActivo(RolActivo.CONDUCTOR);
+        usuarioRepo.save(usuario);
 
         return new ConductorResponseDTO(
                 conductor.getId(),

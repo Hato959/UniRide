@@ -15,4 +15,5 @@ public interface ViajePasajeroRepository extends JpaRepository<ViajePasajero,Via
     boolean existsByViajeIdAndPasajeroId(Long viajeId, Long pasajeroId);
 
     List<ViajePasajero> findByViajeId(Long viajeId);
+    List<ViajePasajero> findByPasajeroId(Long pasajeroId);
 }

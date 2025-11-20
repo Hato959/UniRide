@@ -1,6 +1,7 @@
 package com.uniride.controller;
 
 import com.uniride.dto.request.ReservaRequestDTO;
+import com.uniride.dto.response.ReservaListadoDTO;
 import com.uniride.dto.response.ReservaResponseDTO;
 import com.uniride.model.ViajePasajero;
 import com.uniride.service.ReservaService;
@@ -39,4 +40,10 @@ public class ReservaController {
         reservaService.cancelar(idViaje, idPasajero);
         return ResponseEntity.ok("Reserva cancelada.");
     }
+
+    @GetMapping("/pasajero/{idPasajero}")
+    public ResponseEntity<List<ReservaListadoDTO>> listarPorPasajero(@PathVariable Long idPasajero) {
+        return ResponseEntity.ok(reservaService.listarPorPasajero(idPasajero));
+    }
+
 }

@@ -17,7 +17,8 @@ public class CorsConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",  // React
                 "http://localhost:4200",  // Angular
-                "http://127.0.0.1:3000"   // otra variante de localhost
+                "http://127.0.0.1:3000",   // otra variante de localhost
+                "https://uniride-wj8s.onrender.com"
         ));
 
         // Métodos permitidos

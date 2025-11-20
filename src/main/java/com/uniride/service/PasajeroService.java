@@ -6,6 +6,7 @@ import com.uniride.exception.BusinessRuleException;
 import com.uniride.exception.ResourceNotFoundException;
 import com.uniride.model.Pasajero;
 import com.uniride.model.Usuario;
+import com.uniride.model.enums.RolActivo;
 import com.uniride.repository.PasajeroRepository;
 import com.uniride.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,9 @@ public class PasajeroService {
                 .build();
 
         pasajeroRepo.save(pasajero);
+
+        usuario.setRolActivo(RolActivo.PASAJERO);
+        usuarioRepo.save(usuario);
 
         return new PasajeroResponseDTO(
                 pasajero.getId(),
