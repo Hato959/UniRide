@@ -9,6 +9,7 @@ public record AuthResponse(
         Long conductorId,
         Long pasajeroId,
         String nombre,
-        String rol
+        String rol,
+        String correoInstitucional
 ) {
 }

@@ -61,7 +61,8 @@ public class AuthService {
                 null, // conductorId
                 null, // pasajeroId
                 usuarioGuardado.getNombre(),
-                usuarioGuardado.getRolActivo().name()
+                usuarioGuardado.getRolActivo().name(),
+                usuarioGuardado.getCorreoInstitucional()
         );
     }
 
@@ -99,7 +100,8 @@ public class AuthService {
                 conductorId,        // conductorId (puede ser null)
                 pasajeroId,         // pasajeroId (puede ser null)
                 usuario.getNombre(),
-                usuario.getRolActivo().name()
+                usuario.getRolActivo().name(),
+                usuario.getCorreoInstitucional()
         );
     }
 }

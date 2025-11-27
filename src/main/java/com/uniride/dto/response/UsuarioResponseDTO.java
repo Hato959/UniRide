@@ -5,7 +5,7 @@ import lombok.Builder;
 public record UsuarioResponseDTO(
         Long id,
         String nombre,
-        String correoInsitucional,
+        String correoInstitucional,
         String carrera,
         String distrito,
         String dni,
