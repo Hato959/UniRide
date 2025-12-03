@@ -4,17 +4,20 @@ import com.uniride.dto.request.CambiarPasswordRequestDTO;
 import com.uniride.dto.request.UsuarioRegisterRequestDTO;
 import com.uniride.dto.response.UsuarioResponseDTO;
 import com.uniride.model.enums.RolActivo;
+import com.uniride.service.FotoPerfilService;
 import com.uniride.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final FotoPerfilService fotoPerfilService;
 
     // Crear usuario
     @PostMapping("/registro")
@@ -63,5 +66,15 @@ public class UsuarioController {
     public ResponseEntity<String> obtenerRolActivo(@PathVariable Long id) {
         String rol = usuarioService.obtenerRolActivo(id);
         return ResponseEntity.ok("El rol activo del usuario es: " + rol);
+    }
+
+    @PostMapping("/{id}/foto-perfil")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UsuarioResponseDTO> subirFotoPerfil(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+
+        UsuarioResponseDTO updatedUser = fotoPerfilService.subirYActualizarUsuario(id, file);
+        return ResponseEntity.ok(updatedUser);
     }
 }

@@ -65,8 +65,8 @@ public class PasajeroService {
     public PasajeroResponseDTO actualizar(Long id, PasajeroRequestDTO dto) {
         Pasajero pasajero = pasajeroRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pasajero no encontrado"));
-
-        pasajero.setPreferencias(dto.preferencias());
+        String preferenciasLimpia = dto.preferencias() != null ? dto.preferencias().trim() : null;
+        pasajero.setPreferencias(preferenciasLimpia);
         pasajeroRepo.save(pasajero);
 
         return new PasajeroResponseDTO(

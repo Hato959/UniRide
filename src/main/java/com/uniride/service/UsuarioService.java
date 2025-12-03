@@ -48,7 +48,8 @@ public class UsuarioService {
                 usuario.getDistrito(),
                 usuario.getDni(),
                 usuario.getRolActivo().name(),
-                usuario.getVerificado()
+                usuario.getVerificado(),
+                usuario.getFotoPerfilUrl()
         );
     }
 
@@ -65,7 +66,8 @@ public class UsuarioService {
                 usuario.getDistrito(),
                 usuario.getDni(),
                 usuario.getRolActivo().name(),
-                usuario.getVerificado()
+                usuario.getVerificado(),
+                usuario.getFotoPerfilUrl()
         );
     }
 
@@ -90,7 +92,8 @@ public class UsuarioService {
                 usuario.getDistrito(),
                 usuario.getDni(),
                 usuario.getRolActivo().name(),
-                usuario.getVerificado()
+                usuario.getVerificado(),
+                usuario.getFotoPerfilUrl()
         );
     }
 

@@ -1,9 +1,7 @@
 package com.uniride.dto.request;
 
-import jakarta.validation.constraints.NotNull;
-
 public record PasajeroRequestDTO(
-        @NotNull Long usuarioId,
+        Long usuarioId,
         String preferencias
 ) {
 }

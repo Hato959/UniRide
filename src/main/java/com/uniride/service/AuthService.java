@@ -3,12 +3,16 @@ package com.uniride.service;
 import com.uniride.dto.request.LoginRequest;
 import com.uniride.dto.request.RegisterRequest;
 import com.uniride.dto.response.AuthResponse;
+import com.uniride.dto.request.PasajeroRequestDTO;
+import com.uniride.dto.response.PasajeroResponseDTO;
 import com.uniride.model.Usuario;
 import com.uniride.model.Conductor;
 import com.uniride.model.Pasajero;
+import com.uniride.model.enums.RolActivo;
 import com.uniride.repository.UsuarioRepository;
 import com.uniride.repository.ConductorRepository;
 import com.uniride.repository.PasajeroRepository;
+import com.uniride.service.PasajeroService;
 import com.uniride.security.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +26,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     private final UsuarioRepository usuarioRepository;
-    private final ConductorRepository conductorRepository; // <--- INYECTAR
-    private final PasajeroRepository pasajeroRepository;   // <--- INYECTAR
+    private final ConductorRepository conductorRepository;
+    private final PasajeroRepository pasajeroRepository;
+    private final PasajeroService pasajeroService;
+    private final ConductorService conductorService;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
@@ -47,6 +53,17 @@ public class AuthService {
                 .build();
 
         Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
+        Long pasajeroId = null;
+        Long conductorId = null;
+
+        if (usuarioGuardado.getRolActivo() == RolActivo.PASAJERO) {
+            PasajeroRequestDTO pasajeroDto = new PasajeroRequestDTO(
+                    usuarioGuardado.getId(),
+                    null
+            );
+            PasajeroResponseDTO pasajeroResponse = pasajeroService.registrar(pasajeroDto);
+            pasajeroId = pasajeroResponse.id();
+        }
 
         String token = jwtUtil.generateToken(
                 usuarioGuardado.getId(),
@@ -58,8 +75,8 @@ public class AuthService {
         return new AuthResponse(
                 token,
                 usuarioGuardado.getId(), // usuarioId
-                null, // conductorId
-                null, // pasajeroId
+                conductorId, // conductorId
+                pasajeroId, // pasajeroId
                 usuarioGuardado.getNombre(),
                 usuarioGuardado.getRolActivo().name(),
                 usuarioGuardado.getCorreoInstitucional()

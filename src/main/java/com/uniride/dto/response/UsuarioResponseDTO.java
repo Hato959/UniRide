@@ -10,5 +10,6 @@ public record UsuarioResponseDTO(
         String distrito,
         String dni,
         String rol,
-        Boolean verificado) {
+        Boolean verificado,
+        String fotoPerfilUrl) {
 }

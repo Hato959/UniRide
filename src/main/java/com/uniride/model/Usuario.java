@@ -39,6 +39,9 @@ public class Usuario {
     @Column(name = "verificado")
     private Boolean verificado = false;
 
+    @Column(name = "foto_perfil_url", length = 255)
+    private String fotoPerfilUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "rol_activo", nullable = false, length = 20)
     private RolActivo rolActivo;
