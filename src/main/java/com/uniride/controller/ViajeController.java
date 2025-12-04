@@ -35,7 +35,7 @@ public class ViajeController {
     }
 
     // Listar viajes  (no tiene equivalente en UsuarioController, pero útil)
-    @GetMapping
+    @GetMapping("/listar-viajes")
     public ResponseEntity<List<ViajeResponseDTO>> listar() {
         return ResponseEntity.ok(viajeService.listarViajes());
     }
