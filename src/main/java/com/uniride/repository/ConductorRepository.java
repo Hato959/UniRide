@@ -9,10 +9,9 @@ public interface ConductorRepository extends JpaRepository<Conductor, Long>{
     @Query("""
         SELECT c FROM Conductor c
         JOIN FETCH c.usuario u
-        LEFT JOIN FETCH c.vehiculos v
-        WHERE c.id = :id
+        WHERE u.id = :usuarioId
     """)
-    Optional<Conductor> findByUsuarioId(@Param("id") Long usuarioId);
+    Optional<Conductor> findByUsuarioId(@Param("usuarioId") Long usuarioId);
 
     boolean existsByUsuarioId(Long usuarioId);
     //Optional<Conductor> findByUsuarioId(Long usuarioId);

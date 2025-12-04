@@ -32,4 +32,6 @@ public class Vehiculo {
 
     @Column(nullable = false, length = 30)
     private String color;
+    @Column(name = "foto_vehiculo_url", length = 255)
+    private String fotoVehiculoUrl;
 }

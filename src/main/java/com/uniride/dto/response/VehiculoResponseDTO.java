@@ -9,6 +9,7 @@ public record VehiculoResponseDTO(
         String marca,
         String placa,
         String modelo,
-        String color
+        String color,
+        String fotoVehiculoUrl
 ) {
 }

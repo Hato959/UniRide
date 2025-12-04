@@ -9,13 +9,16 @@ import com.uniride.repository.VehiculoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class VehiculoService {
     private final VehiculoRepository vehiculoRepo;
     private final ConductorRepository conductorRepo;
+    private final CloudinaryService cloudinaryService;
 
     @Transactional
     public VehiculoResponseDTO registrar(VehiculoRegisterRequestDTO dto) {
@@ -38,8 +41,63 @@ public class VehiculoService {
                 vehiculo.getMarca(),
                 vehiculo.getPlaca(),
                 vehiculo.getModelo(),
-                vehiculo.getColor()
+                vehiculo.getColor(),
+                vehiculo.getFotoVehiculoUrl()
         );
+    }
+    @Transactional
+    public VehiculoResponseDTO actualizar(Long id, VehiculoRegisterRequestDTO dto) {
+        Vehiculo vehiculo = vehiculoRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehículo no encontrado"));
+
+        if (!dto.conductorId().equals(vehiculo.getConductor().getId())) {
+            throw new ResourceNotFoundException("No puede cambiar el conductor asignado al vehículo.");
+        }
+
+        vehiculo.setMarca(dto.marca());
+        vehiculo.setPlaca(dto.placa());
+        vehiculo.setModelo(dto.modelo());
+        vehiculo.setColor(dto.color());
+
+        vehiculoRepo.save(vehiculo);
+
+        return new VehiculoResponseDTO(
+                vehiculo.getId(),
+                vehiculo.getConductor().getId(),
+                vehiculo.getMarca(),
+                vehiculo.getPlaca(),
+                vehiculo.getModelo(),
+                vehiculo.getColor(),
+                vehiculo.getFotoVehiculoUrl()
+        );
+    }
+
+    @Transactional
+    public VehiculoResponseDTO subirFoto(Long vehiculoId, MultipartFile file) {
+        Vehiculo vehiculo = vehiculoRepo.findById(vehiculoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehículo no encontrado"));
+
+        try {
+            // 1. Subir a Cloudinary en la carpeta "uniride/vehiculos"
+            String url = cloudinaryService.uploadFile(file, "uniride/vehiculos");
+
+            // 2. Actualizar el campo en la entidad
+            vehiculo.setFotoVehiculoUrl(url);
+            vehiculoRepo.save(vehiculo);
+
+            // 3. Devolver el DTO actualizado
+            return new VehiculoResponseDTO(
+                    vehiculo.getId(),
+                    vehiculo.getConductor().getId(),
+                    vehiculo.getMarca(),
+                    vehiculo.getPlaca(),
+                    vehiculo.getModelo(),
+                    vehiculo.getColor(),
+                    vehiculo.getFotoVehiculoUrl() // Incluir la nueva URL
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("Error al subir la imagen del vehículo: " + e.getMessage(), e);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -52,7 +110,8 @@ public class VehiculoService {
                         v.getMarca(),
                         v.getPlaca(),
                         v.getModelo(),
-                        v.getColor()
+                        v.getColor(),
+                        v.getFotoVehiculoUrl()
                 ))
                 .toList();
     }
@@ -64,6 +123,7 @@ public class VehiculoService {
                 .modelo(v.getModelo())
                 .placa(v.getPlaca())
                 .color(v.getColor())
+                .fotoVehiculoUrl(v.getFotoVehiculoUrl())
                 .build();
     }
 }

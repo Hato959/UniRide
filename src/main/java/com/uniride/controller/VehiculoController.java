@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,6 +20,21 @@ public class VehiculoController {
     @PostMapping("/registro")
     public ResponseEntity<VehiculoResponseDTO> registrar(@RequestBody VehiculoRegisterRequestDTO dto) {
         return ResponseEntity.ok(vehiculoService.registrar(dto));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<VehiculoResponseDTO> actualizar(
+            @PathVariable Long id,
+            @RequestBody VehiculoRegisterRequestDTO dto) {
+        return ResponseEntity.ok(vehiculoService.actualizar(id, dto));
+    }
+
+    @PostMapping("/{id}/foto")
+    public ResponseEntity<VehiculoResponseDTO> subirFoto(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+
+        VehiculoResponseDTO updatedVehicle = vehiculoService.subirFoto(id, file);
+        return ResponseEntity.ok(updatedVehicle);
     }
 
     @GetMapping("/conductor/{conductorId}")
